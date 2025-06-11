@@ -24,9 +24,16 @@ function Products({ addToCart }) {
   }, []);
 
   const handleQuantityChange = (productId, value) => {
-    // Validar que el valor sea entre 1 y 10
-    const numValue = Math.max(1, Math.min(10, parseInt(value) || 1));
+    const numValue = value === '' ? '' : Math.max(1, Math.min(100, parseInt(value) || 1));
     setQuantities(prev => ({ ...prev, [productId]: numValue }));
+  };
+
+  const adjustQuantity = (productId, amount) => {
+    setQuantities(prev => {
+      const current = prev[productId] || 0;
+      const newValue = Math.max(1, Math.min(100, current + amount));
+      return { ...prev, [productId]: newValue };
+    });
   };
 
   return (
@@ -36,7 +43,6 @@ function Products({ addToCart }) {
           <h3>{product.title}</h3>
           <p className="product-description">{product.description}</p>
           
-          {/* Imagen debajo de la descripción */}
           <img 
             src={product.image} 
             alt={product.title} 
@@ -48,17 +54,29 @@ function Products({ addToCart }) {
 
           <p className="product-price">Precio: Q{product.price}</p>
 
-          {/* Input numérico en lugar de range */}
           <div className="quantity-control">
             <label>Cantidad:</label>
+            <button 
+              className="quantity-btn minus"
+              onClick={() => adjustQuantity(product.id, -1)}
+            >
+              -
+            </button>
             <input
               type="number"
               min="1"
-              max="10"
-              value={quantities[product.id] || 1}
+              max="100"
+              value={quantities[product.id] || ''}
               onChange={(e) => handleQuantityChange(product.id, e.target.value)}
               className="quantity-input"
+              placeholder="1"
             />
+            <button 
+              className="quantity-btn plus"
+              onClick={() => adjustQuantity(product.id, 1)}
+            >
+              +
+            </button>
           </div>
 
           <button 
