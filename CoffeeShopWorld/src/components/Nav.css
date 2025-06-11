@@ -1,0 +1,17 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #6F4E37;
+  color: white;
+}
+.nav-logo, .nav-cart {
+  color: white;
+  text-decoration: none;
+}
+.nav-cart span {
+  background: #E8A87C;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  margin-left: 0.3rem;
+}
